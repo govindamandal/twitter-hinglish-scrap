@@ -1,0 +1,22 @@
+{
+    "manifest_version": 3,
+    "name": "Twitter Scraper",
+    "version": "1.0",
+    "description": "Scrape tweets from the current page and save them in a CSV file.",
+    "permissions": [
+      "tabs",
+      "activeTab",
+      "scripting",
+      "downloads"
+    ],
+    "action": {
+      "default_popup": "index.html",
+      "default_icon": "icon/hello_extensions.png"
+    },
+    "background": {
+      "service_worker": "background.js"
+    },
+    "host_permissions": [
+      "https://twitter.com/*"
+    ]
+  }
