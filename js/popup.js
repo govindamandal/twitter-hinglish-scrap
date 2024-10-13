@@ -1,26 +1,34 @@
 document.addEventListener('DOMContentLoaded', async () => {
   const scrapeBtn = document.getElementById('scrape-btn');
   const tweetCountDisplay = document.getElementById('tweet-count');
-  console.log('document loaded');
-  
+
   // Get the tweet count from the current Twitter page
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    console.log("Active tab:", tabs[0]); // Add this log to verify tab ID
+    if (!tabs.length || !tabs[0].id) {
+      console.error("No active tab found");
+      return;
+    }
+
     chrome.scripting.executeScript(
       {
         target: { tabId: tabs[0].id },
         function: countTweets,
       },
       (results) => {
-        const tweetCount = results[0].result;
-        tweetCountDisplay.textContent = `Tweets on page: ${tweetCount}`;
+        if (chrome.runtime.lastError) {
+          console.error(chrome.runtime.lastError.message);
+        } else {
+          console.log("Script executed, results:", results);
+          const tweetCount = results[0]?.result || 0;
+          tweetCountDisplay.textContent = `Tweets on page: ${tweetCount}`;
+        }
       }
     );
   });
 
   // When the scrape button is clicked
   scrapeBtn.addEventListener('click', () => {
-    console.log('scrap clicked');
-    
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       chrome.scripting.executeScript(
         {
@@ -29,7 +37,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         },
         (results) => {
           console.log('results: ', results);
-          
+
           const tweetData = results[0].result;
           const csv = generateCSV(tweetData);
           downloadCSV(csv, 'tweets.csv');
@@ -41,15 +49,22 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // Function to count tweets
 function countTweets() {
-  const tweets = document.querySelectorAll('article');
-  return tweets.length;
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => {
+      const tweets = document.querySelectorAll('article');
+      return tweets.length;
+    });
+  } else {
+    const tweets = document.querySelectorAll('article');
+    return tweets.length;
+  }
 }
 
 // Function to scrape tweets
 function scrapeTweets() {
   const tweets = document.querySelectorAll('article');
   const tweetData = [];
-  
+
   tweets.forEach((tweet) => {
     const username = tweet.querySelector('a[role="link"].r-dnmrzs').href.replace('https://x.com/', '@');
     const name = tweet.querySelector('div[dir="ltr"] span').textContent;
@@ -58,33 +73,10 @@ function scrapeTweets() {
 
     tweetData.push({ username, name, tweetText, datetime });
   });
-  
+
+  console.log('tweetData ', tweetData);
+
+  const csv = generateCSV(tweetData);
+  downloadCSV(csv, 'tweets.csv');
   return tweetData;
-}
-
-// Function to generate CSV
-function generateCSV(data) {
-  const csvRows = [];
-  const headers = ['Username', 'Name', 'Tweet Text', 'Datetime'];
-  csvRows.push(headers.join(','));
-
-  data.forEach((row) => {
-    const values = [row.username, row.name, row.tweetText, row.datetime];
-    csvRows.push(values.map((val) => `"${val.replace(/"/g, '""')}"`).join(','));
-  });
-
-  return csvRows.join('\n');
-}
-
-// Function to download CSV
-function downloadCSV(csv, filename) {
-  const blob = new Blob([csv], { type: 'text/csv' });
-  const url = window.URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.setAttribute('hidden', '');
-  a.setAttribute('href', url);
-  a.setAttribute('download', filename);
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
 }

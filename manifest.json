@@ -1,22 +1,15 @@
 {
-    "manifest_version": 3,
-    "name": "Twitter Scraper",
-    "version": "1.0",
-    "description": "Scrape tweets from the current page and save them in a CSV file.",
-    "permissions": [
-      "tabs",
-      "activeTab",
-      "scripting",
-      "downloads"
-    ],
-    "action": {
-      "default_popup": "index.html",
-      "default_icon": "icon/hello_extensions.png"
-    },
-    "background": {
-      "service_worker": "background.js"
-    },
-    "host_permissions": [
-      "https://twitter.com/*"
-    ]
+  "manifest_version": 3,
+  "name": "Twitter Scraper",
+  "description": "Scrape tweets from the current page and save them in a CSV file.",
+  "version": "1.0",
+  "permissions": ["activeTab", "scripting", "downloads", "tabs"],
+  "host_permissions": ["https://twitter.com/*"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icons/hello_extensions.png"
+  },
+  "background": {
+    "service_worker": "background.js"
   }
+}

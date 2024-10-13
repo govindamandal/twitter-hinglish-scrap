@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Twitter Scraper</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 10px;
+        }
+
+        .container {
+            width: 400px;
+            height: 600px;
+        }
+
+        button {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #1da1f2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0d8ddf;
+        }
+
+        p {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Twitter Scraper</h2>
+        <p>Tweets on this page: <span id="tweetCount">0</span></p>
+        <button id="scrapeButton">Scrape Tweets</button>
+        <p><em>The scraped data will be saved as a CSV file.</em></p>
+    </div>
+    <script src="js/popup.js"></script>
+</body>
+
+</html>
