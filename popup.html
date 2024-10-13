@@ -1,49 +1,80 @@
 <!DOCTYPE html>
-<html>
-
-<head>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Twitter Scraper</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 10px;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 10px;
+      }
 
-        .container {
-            width: 400px;
-            height: 600px;
-        }
+      .container {
+        width: 600px;
+        height: 600px;
+      }
 
-        button {
-            display: block;
-            margin: 10px auto;
-            padding: 10px 20px;
-            background-color: #1da1f2;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+      button {
+        display: block;
+        margin: 10px auto;
+        padding: 10px 20px;
+        background-color: #1da1f2;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
 
-        button:hover {
-            background-color: #0d8ddf;
-        }
+      button:hover {
+        background-color: #0d8ddf;
+      }
 
-        p {
-            text-align: center;
-        }
+      p {
+        text-align: center;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      th,
+      td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+
+      tr:hover {
+        background-color: coral;
+      }
     </style>
-</head>
-
-<body>
+  </head>
+  <body>
+    <h3>Twitter Scraper</h3>
     <div class="container">
-        <h2>Twitter Scraper</h2>
-        <p>Tweets on this page: <span id="tweetCount">0</span></p>
-        <button id="scrapeButton">Scrape Tweets</button>
+      <div class="header">
+        <p id="tweet-count">Tweets collected: 0</p>
+        <button id="download-btn">Download CSV</button>
         <p><em>The scraped data will be saved as a CSV file.</em></p>
+      </div>
+      <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Tweet</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody id="tweet-list">
+
+        </tbody>
+      </table>
     </div>
     <script src="js/popup.js"></script>
-</body>
-
+  </body>
 </html>
