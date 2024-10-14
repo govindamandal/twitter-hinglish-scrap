@@ -30,13 +30,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!displayedTweets.some(t => t.tweetText === tweet.tweetText && t.dateTime === tweet.dateTime)) {
         const row = document.createElement('tr');
         row.innerHTML = `
-          <td>${displayedTweets.length + 1}</td>
+          <td class="row-number"></td>
           <td>${tweet.username}</td>
           <td>${tweet.name}</td>
           <td>${tweet.tweetText}</td>
           <td>${tweet.dateTime}</td>
         `;
-        tweetList.appendChild(row);
+        tweetList.prepend(row);
         displayedTweets.push(tweet);
       }
     });
