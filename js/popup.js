@@ -35,6 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
           <td>${tweet.name}</td>
           <td>${tweet.tweetText}</td>
           <td>${tweet.dateTime}</td>
+          <td>${tweet.video}</td>
+          <td>${tweet.images}</td>
         `;
         tweetList.prepend(row);
         displayedTweets.push(tweet);
