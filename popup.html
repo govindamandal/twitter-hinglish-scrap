@@ -1,115 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Twitter Scraper</title>
     <style>
-      html {
-        scroll-behavior: smooth;
-      }
+        html {
+            scroll-behavior: smooth;
+        }
 
-      ::-webkit-scrollbar {
-        width: 8px;
-      }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
 
-      ::-webkit-scrollbar-track {
-        background: #f1f1f1;
-      }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
 
-      ::-webkit-scrollbar-thumb {
-        background-color: #08a78c;
-        border-radius: 10px;
-      }
+        ::-webkit-scrollbar-thumb {
+            background-color: #08a78c;
+            border-radius: 10px;
+        }
 
-      ::-webkit-scrollbar-thumb:hover {
-        background-color: #117e5d;
-      }
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #117e5d;
+        }
 
-      body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 10px;
-        scrollbar-width: thin;
-        scrollbar-color: #888 #f1f1f1;
-      }
+        body {
+            font-family: Arial, sans-serif;
+            /* display: flex; */
+            flex-direction: column;
+            height: 100%;
+            margin: 0;
+            padding: 10px;
+            scrollbar-width: thin;
+            scrollbar-color: #888 #f1f1f1;
+        }
 
-      .container {
-        width: 600px;
-        height: 600px;
-        overflow-x: auto;
-      }
+        .container {
+            width: 600px;
+            height: 600px;
+            overflow-x: auto;
+        }
 
-      button {
-        display: block;
-        margin: 10px auto;
-        padding: 10px 20px;
-        background-color: #1da1f2;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-      }
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
 
-      button:hover {
-        background-color: #0d8ddf;
-      }
+        button {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #1da1f2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
-      p {
-        text-align: center;
-      }
+        button:hover {
+            background-color: #0d8ddf;
+        }
 
-      table {
-        border-collapse: collapse;
-        width: 100%;
-      }
+        p {
+            text-align: center;
+        }
 
-      th,
-      td {
-        padding: 8px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-      }
+        .table-container {
+            flex: 1;
+            overflow-y: auto;
+            margin: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
 
-      tr:hover {
-        background-color: rgba(76, 144, 247, 0.384);
-      }
-      tbody {
-        counter-reset: rowNumber;
-      }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
 
-      tr {
-        counter-increment: rowNumber;
-      }
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
 
-      .row-number::before {
-        content: counter(rowNumber) ". ";
-      }
+        th {
+            position: sticky;
+            top: 0;
+            background-color: #f1f1f1;
+            z-index: 100;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: rgba(76, 144, 247, 0.384);
+        }
+
+        tbody {
+            counter-reset: rowNumber;
+        }
+
+        tr {
+            counter-increment: rowNumber;
+        }
+
+        .row-number::before {
+            content: counter(rowNumber) ". ";
+        }
     </style>
-  </head>
-  <body>
+</head>
+
+<body>
     <h3>Twitter Scraper</h3>
     <div class="container">
-      <div class="header">
-        <p id="tweet-count">Tweets collected: 0</p>
-        <button id="download-btn">Download CSV</button>
-        <p><em>The scraped data will be saved as a CSV file.</em></p>
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Username</th>
-            <th>Name</th>
-            <th>Tweet</th>
-            <th>Time</th>
-            <th>Video</th>
-            <th>Image</th>
-          </tr>
-        </thead>
-        <tbody id="tweet-list"></tbody>
-      </table>
+        <div class="header">
+            <p id="tweet-count">Tweets collected: 0</p>
+            <button id="download-btn">Download CSV</button>
+            <p><em>The scraped data will be saved as a CSV file.</em></p>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Status ID</th>
+                        <th>Username</th>
+                        <th>Name</th>
+                        <th>Tweet</th>
+                        <th>Time</th>
+                        <th>Video</th>
+                        <th>Image</th>
+                    </tr>
+                </thead>
+                <tbody id="tweet-list"></tbody>
+            </table>
+        </div>
     </div>
     <script src="js/popup.js"></script>
-  </body>
+</body>
+
 </html>

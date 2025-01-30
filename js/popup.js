@@ -31,12 +31,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const row = document.createElement('tr');
         row.innerHTML = `
           <td class="row-number"></td>
+          <td>${tweet.statusId}</td>
           <td>${tweet.username}</td>
           <td>${tweet.name}</td>
           <td>${tweet.tweetText}</td>
           <td>${tweet.dateTime}</td>
           <td>${tweet.video}</td>
-          <td>${tweet.images}</td>
+          <td>${tweet.images.split('|').join('\n\n')}</td>
         `;
         tweetList.prepend(row);
         displayedTweets.push(tweet);

@@ -25,7 +25,10 @@ function scrapeVisibleTweets() {
         })
       }
 
-      const tweetData = { username, name, tweetText, dateTime, video, images: images.join('\n') };
+      const tweetLink = tweet.querySelector('a[href*="/status/"]')?.getAttribute('href') || '';
+        const statusId = tweetLink.split('/status/')[1]?.split('?')[0] || '';
+
+      const tweetData = { statusId, username, name, tweetText, dateTime, video, images: images.join('|') };
 
       if (!collectedTweets.some((t) => t.tweetText === tweetData.tweetText)) {
         collectedTweets.push(tweetData);
@@ -49,26 +52,28 @@ window.onload = function () {
   handleScrollEvent();
 };
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.action === 'getTweets') {
-    sendResponse({ tweets: collectedTweets });
-  }
-  if (message.action === 'getTweetsCount') {
-    chrome.runtime.sendMessage({
-      action: 'updateCount',
-      count: collectedTweets.length
-    });
-  }
-  if (message.action === 'downloadCSV') {
-    downloadCSV();
-  }
-});
+if (!window.hasAddedListener) {
+  chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.action === 'getTweets') {
+      sendResponse({ tweets: collectedTweets });
+    }
+    if (message.action === 'getTweetsCount') {
+      chrome.runtime.sendMessage({
+        action: 'updateCount',
+        count: collectedTweets.length
+      });
+    }
+    if (message.action === 'downloadCSV') {
+      downloadCSV();
+    }
+  });
+}
 
 function downloadCSV() {
   const csvContent =
-    'Username,Name,Tweet,DateTime,Video Link,Image Link(s)\n' +
+    'StatusID,Username,Name,Tweet,DateTime,VideoLink,ImageLinks\n' +
     collectedTweets
-      .map((t) => `${t.username},${t.name},"${t.tweetText}",${t.dateTime},${t.video},${t.images}`)
+      .map((t) => `${t.statusId},${t.username},${t.name},"${t.tweetText}",${t.dateTime},${t.video},${t.images}`)
       .join('\n');
 
   const now = new Date();
